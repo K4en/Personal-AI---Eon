@@ -7,32 +7,39 @@
         body{font-family: sans-serif; max-width:600px;
         margin:auto;padding:20px;}
         textarea{width:100%;height:100px;margin-bottom:10px}
-        button{padding:10px20px;font-size:16px}
-        #response {margin-top:20p;white-space:pre-wrap;background:#f0f0f0; padding:10px}
+        button{padding:10px40px;font-size:16px}
+        #response {margin-top:20px;white-space:pre-wrap;background:#f0f0f0; padding:10px}
     </style>
 </head>
 <body>
     <h2>Eon Assistant</h2>
+    <select id="task">
+        <option value="chat">Chat(LLaMA3)</option>
+        <option value="summarize">Summarize</option>
+        <option value="code">Code</option>
+    </select>
     <textarea id="prompt" placeholder="Please type your question.."></textarea><br>
     <button onclick="sendPrompt()">Ask</button>
     <div id="response"></div>
     <script>
         async function sendPrompt(){
-        const prompt = document.getElementById("prompt").value;
-        const responseDiv = document.getElementById("response");
+            const prompt = document.getElementById("prompt").value;
+            const responseDiv = document.getElementById("response");
 
         try{
-        const res = await
-        fetch("192.168.1.249:5000/ask",{
-        method:"POST",
-        headers:{"Content-Type":"application/json"),
-        body:JSON,stringify({prompt})
+            const task=document.getElementById("task").value;
+
+            const res = await fetch("http://192.168.1.249:5000/ask",
+            {
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({prompt:prompt, task:task})
         });
-        const data = await res.json();
-        responseDiv.innerHTML = data.response || "No response";
+            const data = await res.json();
+            responseDiv.innerHTML = data.response || "No response";
         }
-        catch(err){
-        responseDiv.innerHTML = "Error:" +err.message;
+            catch(err){
+            responseDiv.innerHTML = "Error:" +err.message;
         }
         }
     </script>
