@@ -2,46 +2,83 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Eon</title>
-    <style>
-        body{font-family: sans-serif; max-width:600px;
-        margin:auto;padding:20px;}
-        textarea{width:100%;height:100px;margin-bottom:10px}
-        button{padding:10px40px;font-size:16px}
-        #response {margin-top:20px;white-space:pre-wrap;background:#f0f0f0; padding:10px}
-    </style>
+    <title>Eon - AI</title>
 </head>
 <body>
-    <h2>Eon Assistant</h2>
+    <h2>Eon - AI Assistant</h2>
+    //Select AI model
+    <label for="task"></label>
     <select id="task">
-        <option value="chat">Chat(LLaMA3)</option>
-        <option value="summarize">Summarize</option>
-        <option value="code">Code</option>
+        <option value="llama3">Chat(LLaMA3)</option>
+        <option value="mistral">Mistral</option>
+        <option value="gemma">Code</option>
     </select>
-    <textarea id="prompt" placeholder="Please type your question.."></textarea><br>
-    <button onclick="sendPrompt()">Ask</button>
+    <br><br>
+
+    <label for="prompt"></label>
+    <input type="text" id="prompt" placeholder="Please type your question.."/>
+
+    <button id="askBtn">Ask</button>
+    <button id="voiceBtn">Speak</button>
+
+    <h3>Response:</h3>
     <div id="response"></div>
+
     <script>
-        async function sendPrompt(){
-            const prompt = document.getElementById("prompt").value;
-            const responseDiv = document.getElementById("response");
+        const askBtn = document.getElementById("askBtn");
+        const voiceBtn = document.getElementById("voiceBtn");
 
-        try{
-            const task=document.getElementById("task").value;
+        const modelSelect = document.getElementById("task");
+        const promptInput = document.getElementById("prompt");
+        const responseDiv = document.getElementById("response");
 
-            const res = await fetch("http://192.168.1.249:5000/ask",
-            {
-            method:"POST",
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify({prompt:prompt, task:task})
-        });
-            const data = await res.json();
-            responseDiv.innerHTML = data.response || "No response";
+        //Text to speech
+        function speak(text){
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            window.speechSynthesis.speak(utterance);
         }
-            catch(err){
-            responseDiv.innerHTML = "Error:" +err.message;
+
+        //Send prompt to Flask server
+        async function askAssistant(){
+            const prompt = promptInput.value;
+            const model = modelSelect.value;
+
+            const response = await fetch("http://192.168.1.249:5000/ask",{
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify({prompt:prompt, model:model})
+            });
+
+            const data = await response.json();
+            const reply = data.response;
+
+            responseDiv.textContent = reply;
+            speak(reply);
         }
-        }
+
+        //Button to send typed question
+        askBtn.onclick = askAssistant;
+
+        //Voice recognition
+        const recognition = new(window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = "en-US";
+        recognition.interimResults = false;
+
+        voiceBtn.onclick = () =>{
+            recognition.start();
+        };
+
+        recognition.onresult = (event) =>{
+
+            promptInput.value = event.results[0][0].transcript;
+            askAssistant();
+        };
+
+        recognition.onerror = (event) =>{
+            alert("Speech recognition error:"+event.error);
+        };
+
     </script>
 </body>
 </html>
