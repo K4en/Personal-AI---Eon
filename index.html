@@ -24,6 +24,21 @@
     <h3>Response:</h3>
     <div id="response"></div>
 
+    <h3>History:</h3>
+    <div id="history"></div>
+
+    <h3>Memory:</h3>
+    <div id="memory"></div>
+    <form id="memoryForm">
+        <label>Name: <input type="text" id="userName"/></label><br>
+        <label>Location: <input type="text" id="location"/></label><br>
+        <label>Likes (comma-separated): <input type="text" id="likes"/></label><br>
+        <button type="submit">Update Memory<</button>
+    </form>
+
+    <h3>Knowledge:</h3>
+    <div id="knowledge"></div>
+
     <script>
         const askBtn = document.getElementById("askBtn");
         const voiceBtn = document.getElementById("voiceBtn");
@@ -31,6 +46,7 @@
         const modelSelect = document.getElementById("task");
         const promptInput = document.getElementById("prompt");
         const responseDiv = document.getElementById("response");
+        const historyDiv = document.getElementById("history")
 
         //Text to speech
         function speak(text){
@@ -42,12 +58,12 @@
         //Send prompt to Flask server
         async function askAssistant(){
             const prompt = promptInput.value;
-            const model = modelSelect.value;
+            const task = modelSelect.value;
 
             const response = await fetch("http://192.168.1.249:5000/ask",{
                 method:"POST",
                 headers:{"Content-Type":"application/json"},
-                body:JSON.stringify({prompt:prompt, model:model})
+                body:JSON.stringify({prompt:prompt, model:task})
             });
 
             const data = await response.json();
@@ -55,6 +71,8 @@
 
             responseDiv.textContent = reply;
             speak(reply);
+
+            await fetchAndRenderHistory();
         }
 
         //Button to send typed question
@@ -79,6 +97,84 @@
             alert("Speech recognition error:"+event.error);
         };
 
+        // Fetch and display chat history
+        async function fetchAndRenderHistory(){
+            const res = await fetch("http://192.168.1.249:5000/history");
+            const history = await res.json()
+
+            historyDiv.innerHTML = "";
+            history.forEach(entry => {
+                historyDiv.innerHTML += `
+                    <div style = "margin-bottom: 1em;">
+                        <strong>🕒${entry.timestamp}</strong><br/>
+                        <strong>You:</strong> ${entry.prompt}<br/>
+                        <strong>AI:</strong> ${entry.response}<br/>
+                        <em>Model: ${entry.task}</em>
+                    </div>
+            `;
+
+            })
+        }
+
+        // Fetch and render memory
+        async function fetchAndRenderMemory(){
+            const res = await fetch("http://192.168.1.249:5000/memory");
+            const memory = await res.json();
+
+            const memoryDiv = document.getElementById("memory");
+            memoryDiv.innerHTML = "<pre>" + JSON.stringify(memory, null, 2) + "</pre>";
+        }
+
+        async function loadMemoryIntoForm(){
+            const res = await fetch("http://192.168.1.249:5000/memory");
+            const memory = await res.json();
+
+            document.getElementById("userName").value = memory.user_name || "";
+            document.getElementById("location").value = memory.location || "";
+            document.getElementById("likes").value = (memory.likes || []).join(", ");
+        }
+
+        document.getElementById("memoryForm").onsubmit = async (e) =>{
+            e.preventDefault()
+            const user_name = document.getElementById("userName").value.trim();
+            const location = document.getElementById("location").value.trim();
+            const likes = document.getElementById("likes").value.trim();
+
+            const updateMemory = {
+                user_name,
+                location,
+                likes
+            };
+
+            await fetch("http://192.168.1.249:5000/memory",{
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(updateMemory)
+            });
+
+            await fetchAndRenderMemory();
+            alert("Memory updated!")
+        }
+
+        async function fetchAndRenderKnowledge(){
+            const res = await fetch("http://192.168.1.249:5000/knowledge");
+            const knowledge = await res.json();
+
+            const knowledgeDiv = document.getElementById("knowledge");
+            if (knowledge.length === 0){
+                knowledgeDiv.innerHTML = "<em>No knowledge loaded.</em>";
+                return;
+            }
+
+            knowledgeDiv.innerHTML = knowledge.map(
+                (chunk, i) => `<div><strong>[${i + 1}]</strong> ${chunk}</div>`
+            ).join("<hr>");
+        }
+
+        fetchAndRenderHistory();
+        fetchAndRenderMemory();
+        fetchAndRenderKnowledge();
+        loadMemoryIntoForm();
     </script>
 </body>
 </html>
