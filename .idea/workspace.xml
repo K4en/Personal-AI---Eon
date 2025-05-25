@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="16041008-8b41-4aeb-bd9c-570b06c3d117" name="Changes" comment="Added chat history and working memory">
+    <list default="true" id="16041008-8b41-4aeb-bd9c-570b06c3d117" name="Changes" comment="Added memory viewer, Added knowledge and viewer">
+      <change afterPath="$PROJECT_DIR$/active_thread.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/goals.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/identity.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/journal.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pending_task.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reminders.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/threads/ai_dev.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/threads/fitness.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/threads/general.jsonl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
@@ -69,6 +79,12 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Tamas\Documents\Python\Personal AI project\threads" />
+      <recent name="C:\Users\Tamas\Documents\Python\Personal AI project" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -88,7 +104,7 @@
       <workItem from="1747115593653" duration="4845000" />
       <workItem from="1747317501419" duration="5401000" />
       <workItem from="1747337535927" duration="11319000" />
-      <workItem from="1747565429435" duration="5786000" />
+      <workItem from="1747565429435" duration="49010000" />
     </task>
     <task id="LOCAL-00001" summary="First commit&#10;Basic index html and initializing LLaMA model using Ollama">
       <option name="closed" value="true" />
@@ -114,7 +130,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747374557942</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Added memory viewer, Added knowledge and viewer">
+      <option name="closed" value="true" />
+      <created>1747627819909</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1747627819909</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -124,9 +148,10 @@
     <MESSAGE value="First commit&#10;Basic index html and initializing LLaMA model using Ollama" />
     <MESSAGE value="Fixed an issue of not getting response on phone through Flask using Flask-Cors" />
     <MESSAGE value="Added chat history and working memory" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added chat history and working memory" />
+    <MESSAGE value="Added memory viewer, Added knowledge and viewer" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added memory viewer, Added knowledge and viewer" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Personal_AI_project$app.coverage" NAME="app Coverage Results" MODIFIED="1747565739595" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Personal_AI_project$app.coverage" NAME="app Coverage Results" MODIFIED="1747740043399" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

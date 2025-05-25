@@ -30,14 +30,17 @@
     <h3>Memory:</h3>
     <div id="memory"></div>
     <form id="memoryForm">
-        <label>Name: <input type="text" id="userName"/></label><br>
+        <label>Name: <input type="text" id="user_name"/></label><br>
         <label>Location: <input type="text" id="location"/></label><br>
         <label>Likes (comma-separated): <input type="text" id="likes"/></label><br>
-        <button type="submit">Update Memory<</button>
+        <button type="submit">Update Memory</button>
     </form>
 
     <h3>Knowledge:</h3>
     <div id="knowledge"></div>
+    <label for="tagFilter">Filter by tag:</label>
+    <input type="text" id="tagFilter" placeholder="e.g coding, biology"/>
+    <button onclick="fetchAndRenderKnowledge()">Apply Filter</button>
 
     <script>
         const askBtn = document.getElementById("askBtn");
@@ -63,7 +66,7 @@
             const response = await fetch("http://192.168.1.249:5000/ask",{
                 method:"POST",
                 headers:{"Content-Type":"application/json"},
-                body:JSON.stringify({prompt:prompt, model:task})
+                body:JSON.stringify({prompt:prompt, task:task})
             });
 
             const data = await response.json();
@@ -76,7 +79,7 @@
         }
 
         //Button to send typed question
-        askBtn.onclick = askAssistant;
+        askBtn.onClick = askAssistant;
 
         //Voice recognition
         const recognition = new(window.SpeechRecognition || window.webkitSpeechRecognition)();
@@ -117,6 +120,7 @@
         }
 
         // Fetch and render memory
+
         async function fetchAndRenderMemory(){
             const res = await fetch("http://192.168.1.249:5000/memory");
             const memory = await res.json();
@@ -129,9 +133,9 @@
             const res = await fetch("http://192.168.1.249:5000/memory");
             const memory = await res.json();
 
-            document.getElementById("userName").value = memory.user_name || "";
-            document.getElementById("location").value = memory.location || "";
-            document.getElementById("likes").value = (memory.likes || []).join(", ");
+            document.getElementById("user_name").value = memory.user_name?.value || "";
+            document.getElementById("location").value = memory.location?.value || "";
+            document.getElementById("likes").value = (memory.likes?.value || []).join(", ");
         }
 
         document.getElementById("memoryForm").onsubmit = async (e) =>{
@@ -141,9 +145,9 @@
             const likes = document.getElementById("likes").value.trim();
 
             const updateMemory = {
-                user_name,
-                location,
-                likes
+                user_name: {value: user_name, type: "identity"},
+                location: {value: location, type: "preference"},
+                likes: {value: likes.split(",").map(1=>1.trim()), type: "interest"}
             };
 
             await fetch("http://192.168.1.249:5000/memory",{
@@ -156,19 +160,73 @@
             alert("Memory updated!")
         }
 
+        // Fetch and render Knowledge
+
         async function fetchAndRenderKnowledge(){
             const res = await fetch("http://192.168.1.249:5000/knowledge");
             const knowledge = await res.json();
 
+            const filterTags = document.getElementById("tagFilter").value
+                .split(",")
+                .map(tag=>tag.trim().toLowerCase())
+                .filter(tag=>tag);
+
             const knowledgeDiv = document.getElementById("knowledge");
-            if (knowledge.length === 0){
+            knowledgeDiv.innerHTML = "";
+
+            const filtered = filterTags.length === 0
+                ? knowledge
+                : knowledge.filter(chunk=>{
+                    const chunkTags = (chunk.tags||[]).map(t=> t.toLowerCase());
+                    return filterTags.some(tag => chunkTags.includes(tag));
+                })
+
+            if (filtered.length === 0){
                 knowledgeDiv.innerHTML = "<em>No knowledge loaded.</em>";
                 return;
             }
 
-            knowledgeDiv.innerHTML = knowledge.map(
-                (chunk, i) => `<div><strong>[${i + 1}]</strong> ${chunk}</div>`
-            ).join("<hr>");
+            filtered.forEach((chunk, index) => {
+                const container = document.createElement("div");
+                const tagStr = (chunk.tags||[]).join(", ");
+                const content = chunk.content||chunk; //fallback for legacy format
+
+                container.innerHTML =`
+                    <textarea id="chunk-${index}" rows="3" style="width:100%;">${content}</textarea>
+                    <label>Tags:</label>
+                    <input type="text" id="tags-${index}" value="${tagStr}" style="width:100%"></br>
+                    <button onclick="updateChunk(${index})">💾 Save</button>
+                    <button onclick="deleteChunk(${index})">🗑 Delete</button>
+                    </hr>
+                `;
+                knowledgeDiv.appendChild(container);
+            });
+        }
+
+        // Update Knowledge Chunks
+
+        async function updateChunk(index){
+            const content = document.getElementById(`chunk-${index}`).value;
+            const tags = document.getElementById(`tags-${index}`).value
+                .split(",")
+                .map(tag=>tag.trim())
+                .filter(tag=>tag);
+
+            await fetch(`http://192.168.1.249:5000/knowledge/${index}`,{
+                method:"PUT",
+                headers:{"Content-Type": "application/json"},
+                body: JSON.stringify({content, tags})
+            });
+            await fetchAndRenderKnowledge();
+        }
+
+        // Delete Knowledge Chunks
+
+        async function deleteChunk(index){
+            await fetch(`http://192.168.1.249:5000/knowledge/${index}`,{
+                method: "DELETE"
+            });
+            await fetchAndRenderKnowledge();
         }
 
         fetchAndRenderHistory();
