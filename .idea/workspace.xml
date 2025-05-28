@@ -4,20 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="16041008-8b41-4aeb-bd9c-570b06c3d117" name="Changes" comment="Added memory viewer, Added knowledge and viewer">
-      <change afterPath="$PROJECT_DIR$/active_thread.json" afterDir="false" />
+    <list default="true" id="16041008-8b41-4aeb-bd9c-570b06c3d117" name="Changes" comment="Finished the base architecture of the assitant. Prompts, Memory, Knowledge, Multi-task handling, Chat history, etc.&#10;Next phase is training my own model.">
       <change afterPath="$PROJECT_DIR$/context.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cuda_test.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/goals.json" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/identity.json" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/journal.jsonl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pending_task.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lora_train_llama3.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mistral_lora_train.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/reminders.jsonl" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/threads/ai_dev.jsonl" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/threads/fitness.jsonl" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/threads/general.jsonl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/memory.json" beforeDir="false" afterPath="$PROJECT_DIR$/memory.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -29,8 +29,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
-        <option value="Python Script" />
         <option value="JavaScript File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -67,6 +67,9 @@
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;Python.app.executor&quot;: &quot;Run&quot;,
     &quot;Python.assistant.executor&quot;: &quot;Run&quot;,
+    &quot;Python.cuda_test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.lora_train_llama3.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mistral_lora_train.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
@@ -105,6 +108,9 @@
       <workItem from="1747317501419" duration="5401000" />
       <workItem from="1747337535927" duration="11319000" />
       <workItem from="1747565429435" duration="49010000" />
+      <workItem from="1748172626038" duration="11866000" />
+      <workItem from="1748278278740" duration="8163000" />
+      <workItem from="1748314761090" duration="5457000" />
     </task>
     <task id="LOCAL-00001" summary="First commit&#10;Basic index html and initializing LLaMA model using Ollama">
       <option name="closed" value="true" />
@@ -138,7 +144,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747627819909</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Finished the base architecture of the assitant. Prompts, Memory, Knowledge, Multi-task handling, Chat history, etc.&#10;Next phase is training my own model.">
+      <option name="closed" value="true" />
+      <created>1748172892819</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1748172892819</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -149,9 +163,13 @@
     <MESSAGE value="Fixed an issue of not getting response on phone through Flask using Flask-Cors" />
     <MESSAGE value="Added chat history and working memory" />
     <MESSAGE value="Added memory viewer, Added knowledge and viewer" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added memory viewer, Added knowledge and viewer" />
+    <MESSAGE value="Finished the base architecture of the assitant. Prompts, Memory, Knowledge, Multi-task handling, Chat history, etc.&#10;Next phase is training my own model." />
+    <option name="LAST_COMMIT_MESSAGE" value="Finished the base architecture of the assitant. Prompts, Memory, Knowledge, Multi-task handling, Chat history, etc.&#10;Next phase is training my own model." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Personal_AI_project$app.coverage" NAME="app Coverage Results" MODIFIED="1747740043399" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Personal_AI_project$mistral_lora_train.coverage" NAME="mistral_lora_train Coverage Results" MODIFIED="1748348457490" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Personal_AI_project$cuda_test.coverage" NAME="cuda_test Coverage Results" MODIFIED="1748279123021" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Personal_AI_project$lora_train_llama3.coverage" NAME="lora_train_llama3 Coverage Results" MODIFIED="1748281545424" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
