@@ -4,19 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="16041008-8b41-4aeb-bd9c-570b06c3d117" name="Changes" comment="Finished the base architecture of the assitant. Prompts, Memory, Knowledge, Multi-task handling, Chat history, etc.&#10;Next phase is training my own model.">
+    <list default="true" id="16041008-8b41-4aeb-bd9c-570b06c3d117" name="Changes" comment="Mistral_lora_train script. Finally managed make one work on my PC">
       <change afterPath="$PROJECT_DIR$/context.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cuda_test.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/evaluate_perplexity.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/evaluate_spotcheck.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/goals.json" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/identity.json" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/journal.jsonl" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/lora_train_llama3.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mistral_lora_train.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/reminders.jsonl" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/threads/ai_dev.jsonl" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/threads/fitness.jsonl" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/threads/general.jsonl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/memory.json" beforeDir="false" afterPath="$PROJECT_DIR$/memory.json" afterDir="false" />
     </list>
@@ -68,6 +67,8 @@
     &quot;Python.app.executor&quot;: &quot;Run&quot;,
     &quot;Python.assistant.executor&quot;: &quot;Run&quot;,
     &quot;Python.cuda_test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.evaluate_perplexity.executor&quot;: &quot;Run&quot;,
+    &quot;Python.evaluate_spotcheck.executor&quot;: &quot;Run&quot;,
     &quot;Python.lora_train_llama3.executor&quot;: &quot;Run&quot;,
     &quot;Python.mistral_lora_train.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
@@ -110,7 +111,8 @@
       <workItem from="1747565429435" duration="49010000" />
       <workItem from="1748172626038" duration="11866000" />
       <workItem from="1748278278740" duration="8163000" />
-      <workItem from="1748314761090" duration="5457000" />
+      <workItem from="1748314761090" duration="14704000" />
+      <workItem from="1748503949974" duration="2165000" />
     </task>
     <task id="LOCAL-00001" summary="First commit&#10;Basic index html and initializing LLaMA model using Ollama">
       <option name="closed" value="true" />
@@ -152,7 +154,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748172892819</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Mistral_lora_train script. Finally managed make one work on my PC">
+      <option name="closed" value="true" />
+      <created>1748408660950</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1748408660950</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -164,9 +174,12 @@
     <MESSAGE value="Added chat history and working memory" />
     <MESSAGE value="Added memory viewer, Added knowledge and viewer" />
     <MESSAGE value="Finished the base architecture of the assitant. Prompts, Memory, Knowledge, Multi-task handling, Chat history, etc.&#10;Next phase is training my own model." />
-    <option name="LAST_COMMIT_MESSAGE" value="Finished the base architecture of the assitant. Prompts, Memory, Knowledge, Multi-task handling, Chat history, etc.&#10;Next phase is training my own model." />
+    <MESSAGE value="Mistral_lora_train script. Finally managed make one work on my PC" />
+    <option name="LAST_COMMIT_MESSAGE" value="Mistral_lora_train script. Finally managed make one work on my PC" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Personal_AI_project$evaluate_spotcheck.coverage" NAME="evaluate_spotcheck Coverage Results" MODIFIED="1748409169501" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Personal_AI_project$evaluate_perplexity.coverage" NAME="evaluate_perplexity Coverage Results" MODIFIED="1748433082415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Personal_AI_project$app.coverage" NAME="app Coverage Results" MODIFIED="1747740043399" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Personal_AI_project$mistral_lora_train.coverage" NAME="mistral_lora_train Coverage Results" MODIFIED="1748348457490" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Personal_AI_project$cuda_test.coverage" NAME="cuda_test Coverage Results" MODIFIED="1748279123021" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
